@@ -4,3 +4,9 @@ RUN cd /tmp && curl -s https://api.github.com/repos/alibaba/otter/releases/lates
     && mkdir -p otter-manager && tar -xvzf manager.deployer-*.tar.gz -C otter-manager && mv otter-manager /usr/local/
 
 WORKDIR /usr/local/otter-manager
+
+ADD docker-entrypoint.sh .
+
+RUN chmod +x docker-entrypoint.sh
+
+CMD ["./docker-entrypoint.sh"]
