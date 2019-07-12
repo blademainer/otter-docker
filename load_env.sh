@@ -13,7 +13,7 @@ echo "<<<<<<<<<<<<<<<<<<<<<<<<"
 
 env | grep -E "^CONF_" | while read conf; do
     name=`echo "$conf" | awk -F "=" '{print $1}' | sed 's/CONF_//' | sed 's/_/\./g' `
-    value=`echo "$conf" | awk -F "=" '{print $2}'`
+    value=`echo "$conf" | awk -F "=" '{$1=""; print $0}'`
     c="`echo $name | tr [A-Z] [a-z]`"
     echo "setting: $c = ${value}"
     sed -i "s~^${c}~s*=.*$/${c} = ${value}~g" conf/env.conf
@@ -27,7 +27,7 @@ while read field; do
     fi
     echo "field: $field"
     name="`echo $field | awk -F '=' '{print $1}' | sed 's/\./_/g' | awk '{print "CONF_"$0}' | tr [a-z] [A-Z] | sed 's/ //g'`"
-    value="`echo $field | awk -F '=' '{print $2}' | sed 's/\"//g' | sed 's/ //g'`"
+    value="`echo $field | awk -F '=' '{$1=""; print $0}' | sed 's/^\s*//g' | sed 's/\"//g' `"
     echo "name: $name value: $value"
     export $name="$value"
 #    echo "$exp"
