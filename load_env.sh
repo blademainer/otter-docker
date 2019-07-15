@@ -3,7 +3,7 @@
 echo "optional env parameters:"
 echo ">>>>>>>>>>>>>>>>>>>>>>>>"
 cat conf/env.conf  | grep -E "^\w" | awk '{print $1}' | sed 's/\./_/g' | awk '{print "CONF_"$0}' | while read _opts; do
-    echo "opts: $_opts"
+#    echo "opts: $_opts"
 #    typeset -u _env_opts
     _env_opts="`echo $_opts | tr [a-z] [A-Z]`"
     echo "$_env_opts"
@@ -13,10 +13,10 @@ echo "<<<<<<<<<<<<<<<<<<<<<<<<"
 
 env | grep -E "^CONF_" | while read conf; do
     name=`echo "$conf" | awk -F "=" '{print $1}' | sed 's/CONF_//' | sed 's/_/\./g' `
-    value=`echo "$conf" | awk -F "=" '{$1=""; print $0}'`
+    value=`echo "$conf" | awk -F "=" '{$1=""; print $0}' | sed 's/^\s*//g'`
     c="`echo $name | tr [A-Z] [a-z]`"
     echo "setting: $c = ${value}"
-    sed -i "s~^${c}~s*=.*$/${c} = ${value}~g" conf/env.conf
+    sed -i "s~^${c}\s*=.*$~${c} = ${value}~g" conf/env.conf
 #    sed -i "s/$c/$V"
 done
 
