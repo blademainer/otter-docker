@@ -12,7 +12,7 @@ echo "<<<<<<<<<<<<<<<<<<<<<<<<"
 
 _MYSQL_PORT="3306"
 
-envs="MSYQL_HOST
+envs="MYSQL_HOST
 MYSQL_USER
 MYSQL_PASSWORD
 MYSQL_PORT
